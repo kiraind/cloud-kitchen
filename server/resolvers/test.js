@@ -1,9 +1,8 @@
 import mysqlConnection from '../database/mysqlConnection.js'
 
-export default async function test() {
-    const [ rows, fields ] = await mysqlConnection.query(`SELECT 2 + 2 AS four`)
-
+export default async function test(parent, args, context) {
+    const [ rows ] = await mysqlConnection.query(`SELECT 2 + 2 AS four`)
     const { four } = rows[0]
 
-    return `Success, 2 + 2 = ${four}!`
+    return `Hello${context.user ? ', ' + context.user.name : ''}, 2 + 2 = ${four}!`
 }

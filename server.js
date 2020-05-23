@@ -11,12 +11,15 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
-// load resolvers
+// load local server modules
 let resolvers
+let context
 
 import('./server/resolvers/index.js').then(resolversModule => {
     resolvers = resolversModule
-    console.log(resolvers)
+})
+import('./server/context.js').then(contextModule => {
+    context = contextModule.default
 })
 .then(() => app.prepare())
 .then(() => {
@@ -28,6 +31,12 @@ import('./server/resolvers/index.js').then(resolversModule => {
     const apolloServer = new ApolloServer({
         typeDefs: fs.readFileSync('server/schema.graphql', 'utf-8'),
         resolvers: { ...resolvers },
+        context,
+        playground: {
+            settings: {
+              "request.credentials": "include"
+            }
+        }
     })
 
     apolloServer.applyMiddleware({ app: server })
