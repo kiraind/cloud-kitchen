@@ -8,10 +8,10 @@ const app = next({ dev })
 const handle = app.getRequestHandler()
 
 // modules loading
-let test
+let graphqlMiddleware
 
-import('./server/test.js').then(testModule => {
-    test = testModule.default
+import('./server/graphqlMiddleware.js').then(graphqlMiddlewareModule => {
+    graphqlMiddleware = graphqlMiddlewareModule.default
 })
 .then(() => app.prepare())
 .then(() => {
@@ -19,6 +19,7 @@ import('./server/test.js').then(testModule => {
 
     server.use(express.json())
     server.use(cookieParser())
+    server.use('/graphql', graphqlMiddleware)
     
     server.get('*', (req, res) => {
         // default next.js handler SSR and so on
