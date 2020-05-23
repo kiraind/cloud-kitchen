@@ -2,7 +2,7 @@ import fs from 'fs'
 
 import mysqlConnection from './database/mysqlConnection.js'
 
-const fullUserSQL = fs.readFileSync('sql/full-user.sql', 'utf-8')
+const internalUserSQL = fs.readFileSync('sql/internalUser.sql', 'utf-8')
 
 export default async function context({ req, res }) {
     const context = {
@@ -20,7 +20,7 @@ export default async function context({ req, res }) {
 
     if(token && csrfToken) {
         const [ rows ] = await mysqlConnection.execute(
-            fullUserSQL,
+            internalUserSQL,
             [ token, csrfToken ]
         )
 
@@ -38,8 +38,7 @@ export default async function context({ req, res }) {
                 customer: user.Customer,
                 cook:     user.Cook,
                 courier:  user.Courier,
-            }
-            
+            }            
         } else {
             // убираем неактуальные куки
             res.cookie(

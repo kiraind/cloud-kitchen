@@ -1,3 +1,35 @@
 type Query {
-    test: String
+    test: String!,
+    getUser: User,
+    getBonusPoints: Int,
+}
+
+type Mutation {
+    editUser(user: UserEditInput!) : User,
+    registerUser(user: UserInput!) : User,
+    loginUser(credentials: LoginInput!) : User,
+}
+
+# Операции с пользователем
+
+type User {
+    name:  String!,
+    email: String!,
+}
+
+input UserEditInput {
+    name:     String,
+    email:    String,
+    password: String,
+}
+
+input UserInput {
+    name:     String!,
+    email:    String!,
+    password: String!
+}
+
+input LoginInput {
+    email:    String!,
+    password: String!,
 }

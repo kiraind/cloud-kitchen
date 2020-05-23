@@ -1,3 +1,4 @@
+-- Создание нужных таблиц и связей в пустой БД
 CREATE TABLE MenuItems (
     Id       INT PRIMARY KEY AUTO_INCREMENT,
     Title    VARCHAR(64),
