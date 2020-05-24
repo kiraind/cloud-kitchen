@@ -34,6 +34,9 @@ export default async function editUser(_, args, context) {
         if(!formattedName) {
             throw new UserInputError('Некорректное имя')
         }
+        if(formattedName.length > 64) {
+            throw new UserInputError('Слишком длинное имя')
+        }
 
         await mysqlConnection.execute(
             editUserNameSQL,
@@ -50,6 +53,9 @@ export default async function editUser(_, args, context) {
         // проверяем валидность email
         if(!validateEmail(email)) {
             throw new UserInputError('Некорректный email')
+        }
+        if(email.length > 64) {
+            throw new UserInputError('Слишком длинный email')
         }
 
         // проверяем существование пользователя с таким email

@@ -50,6 +50,16 @@ export default async function context({ req, res }) {
                     httpOnly: true,
                 }
             )
+
+            res.cookie(
+                'csrfToken',
+                'deleted', 
+                {
+                    // моментально истекающая
+                    expires: new Date(0),
+                    httpOnly: false,
+                }
+            )
         }
     }
  
