@@ -12,6 +12,7 @@ SELECT
 
 FROM UserTokens
     INNER JOIN Users
+        ON Users.Id = UserTokens.UserId
     LEFT JOIN Customers
         ON Users.Id = Customers.UserId
     LEFT JOIN Cooks
