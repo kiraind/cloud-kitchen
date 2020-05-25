@@ -4,6 +4,7 @@ const Logo = ({
     color='white',
     background=deepOrange[500],
     size=95,
+    shadow=true,
 }) => (
     <div
         className="Logo"
@@ -26,8 +27,8 @@ const Logo = ({
 
         <style jsx>{`
             .Logo {
-                border-radius: 10px;
-                box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);
+                border-radius: ${10 * size / 95}px;
+                ${shadow ? `box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.25);` : ``}
                 width:  ${size}px;
                 height: ${size}px;
                 background-color: ${background};

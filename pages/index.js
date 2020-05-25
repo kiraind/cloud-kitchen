@@ -69,15 +69,19 @@ const Index = () => {
         )
     }
 
+    if(data.getUser === null) {
+        return (
+            <AppWrap>
+                <SplashScreen />
+            </AppWrap>
+        )
+    }
+
     return (
-        <AppWrap>
-            {
-                data.getUser === null
-                    ? <SplashScreen />
-                    : (
-                        <div>menu</div>
-                    )
-            }
+        <AppWrap
+            header
+        >
+            <div>menu</div>
         </AppWrap>
     )
 }
