@@ -3,7 +3,7 @@ import mysqlConnection from '../database/mysqlConnection.js'
 
 const bonusPointsSQL = fs.readFileSync('sql/bonusPoints.sql', 'utf-8')
 
-export default async function getBonusPoints(parent, args, context) {
+export default async function getBonusPoints(_parent, _args, context) {
     if(!context.user) {
         return null
     }

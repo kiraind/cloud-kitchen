@@ -8,6 +8,7 @@ type Mutation {
     editUser(user: UserEditInput!) : User,
     registerUser(user: UserInput!) : User,
     loginUser(credentials: LoginInput!) : User,
+    logoutUser: Int,
 }
 
 # Операции с пользователем

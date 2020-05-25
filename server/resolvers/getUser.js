@@ -1,4 +1,4 @@
-export default async function getUser(parent, args, context) {
+export default async function getUser(_parent, _args, context) {
     if(!context.user) {
         return null
     }

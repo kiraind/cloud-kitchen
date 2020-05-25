@@ -14,7 +14,7 @@ const editUserNameSQL           = fs.readFileSync('sql/editUserName.sql', 'utf-8
 const editUserEmailSQL          = fs.readFileSync('sql/editUserEmail.sql', 'utf-8')
 const editUserBcryptPasswordSQL = fs.readFileSync('sql/editUserBcryptPassword.sql', 'utf-8')
 
-export default async function editUser(_, args, context) {
+export default async function editUser(_parent, args, context) {
     if(!context.user) {
         throw new AuthenticationError('Нет авторизации')
     }

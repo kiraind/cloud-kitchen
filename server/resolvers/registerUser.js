@@ -15,7 +15,7 @@ const addTokenSQL         = fs.readFileSync('sql/addToken.sql', 'utf-8')
 
 const monthInMs = 30 * 24 * 60 * 60 * 1000
 
-export default async function registerUser(_, args, context) {
+export default async function registerUser(_parent, args, context) {
     if(context.user) {
         return {
             name:  context.user.name,
