@@ -1,8 +1,9 @@
 // import App from 'next/app'
-
 import { ApolloProvider } from '@apollo/react-hooks'
+import { ThemeProvider } from '@material-ui/core/styles'
 
 import client from '../lib/apolloClient.js'
+import materialUITheme from '../lib/materialUITheme.js'
 
 const CloudKitchenApp = ({
     Component,
@@ -13,7 +14,11 @@ const CloudKitchenApp = ({
         <ApolloProvider
             client={client}
         >
-            <Component {...pageProps} />
+            <ThemeProvider
+                theme={materialUITheme}
+            >
+                <Component {...pageProps} />
+            </ThemeProvider>
         </ApolloProvider>
     )
 }
