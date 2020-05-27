@@ -19,9 +19,6 @@ export default async function editUser(_parent, args, context) {
         throw new AuthenticationError('Нет авторизации')
     }
 
-    const fields = []
-    const values = []
-
     const {
         name,
         email,
@@ -83,7 +80,7 @@ export default async function editUser(_parent, args, context) {
         const bcryptPassword = await bcrypt.hash(password, 12)
 
         await mysqlConnection.execute(
-            editUserNameSQL,
+            editUserBcryptPasswordSQL,
             [
                 bcryptPassword,
                 context.user.id

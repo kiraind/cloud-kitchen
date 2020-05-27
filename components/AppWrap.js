@@ -7,6 +7,8 @@ const AppWrap = ({
     loading,
     title='',
     header=false,
+    headerText='Профиль',
+    headerLink='/profile',
     modal=null
 }) => {
 
@@ -20,7 +22,10 @@ const AppWrap = ({
             </Head>
 
             { header && (
-                <Header />
+                <Header
+                    text={headerText}
+                    link={headerLink}
+                />
             ) }
             
             <main>{children}</main>

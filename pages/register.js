@@ -74,7 +74,7 @@ const Register = () => {
 
     return (
         <AppWrap
-            title="Вход"
+            title="Регистрация"
         >
             <div
                 className="Banner"

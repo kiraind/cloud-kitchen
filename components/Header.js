@@ -4,7 +4,10 @@ import { Button } from '@material-ui/core'
 
 import Logo from '../components/Logo.js'
 
-const Header = () => (
+const Header = ({
+    text,
+    link
+}) => (
     <header>
         <Logo
             size={36}
@@ -14,8 +17,8 @@ const Header = () => (
         <Button
             variant="outlined"
             color="secondary"
-            onClick={() => Router.push('/profile')}
-        >Профиль</Button>
+            onClick={() => Router.push(link)}
+        >{text}</Button>
 
         <style jsx>{`
             header {
