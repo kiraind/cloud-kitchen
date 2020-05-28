@@ -77,12 +77,12 @@ CREATE TABLE Couriers (
 
 CREATE TABLE Orders (
     Id         INT PRIMARY KEY AUTO_INCREMENT,
-    TempId     INT NOT NULL, -- Publicly displayed order id
+    ShownId    INT NOT NULL, -- Publicly displayed order id
 
     Ready      BOOLEAN DEFAULT FALSE,
     Delivered  BOOLEAN DEFAULT FALSE,
 
-    CourierId  INT NOT NULL,
+    CourierId  INT DEFAULT NULL,
 
     CustomerId INT NOT NULL,
     AddressId  INT NOT NULL,

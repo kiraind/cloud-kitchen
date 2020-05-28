@@ -10,6 +10,7 @@ type Mutation {
     registerUser(user: UserInput!) : User,
     loginUser(credentials: LoginInput!) : User,
     logoutUser: Int,
+    makeOrder(order: OrderInput!) : Order!,
 }
 
 # Операции с пользователем
@@ -36,6 +37,20 @@ input LoginInput {
     password: String!,
 }
 
+input AddressInput {
+    street:   String!,
+    building: String!,
+    room:     String,
+}
+
+type Address {
+    id: Int!,
+
+    street:   String!,
+    building: String!,
+    room:     String,
+}
+
 # Просмотр меню
 
 type MenuItem {
@@ -43,4 +58,39 @@ type MenuItem {
     title:    String!,
     price:    Int!,    # в копейках
     calories: Float!,
+}
+
+# Заказы
+
+input OrderItemInput {
+    itemId: Int!,
+    amount: Int!,
+}
+
+input OrderInput {
+    addressId: Int!,
+    comment:   String,
+
+    items: [OrderItemInput!]!
+}
+
+enum OrderStatus {
+    COOKING
+    DELIVERING
+    DONE
+}
+
+type OrderItem {
+    item:   MenuItem!,
+    amount: Int!,
+}
+
+type Order {
+    id:      Int!,
+    shownId: Int!,
+    status:  OrderStatus!,
+    address: Address!,
+    comment: String,
+
+    items: [OrderItem!]!
 }
