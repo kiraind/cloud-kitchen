@@ -58,12 +58,12 @@ const MenuItem = ({
         <style jsx>{`
             .MenuItem {
                 margin-top: 15px;
-                height: 90px;
 
                 display: flex;
+                align-items: center;
                 padding-right: 15px;
 
-                box-shadow: 0px 1px 5px rgba(0,0,0,0.25);
+                box-shadow: 0px 1px 5px rgba(0,0,0,0.175)
             }
 
             .MenuItemIcon {

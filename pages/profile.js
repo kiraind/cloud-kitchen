@@ -195,7 +195,7 @@ const Profile = () => {
         <AppWrap
             title="Профиль"
             header
-            headerText="Меню"
+            headerText="Назад"
             headerLink="/"
         >
             <h3>Редактирование профиля</h3>
