@@ -2,6 +2,7 @@ type Query {
     test: String!,
     getUser: User,
     getBonusPoints: Int,
+    getMenu: [MenuItem!]!
 }
 
 type Mutation {
@@ -33,4 +34,13 @@ input UserInput {
 input LoginInput {
     email:    String!,
     password: String!,
+}
+
+# Просмотр меню
+
+type MenuItem {
+    id:       Int!,
+    title:    String!,
+    price:    Int!,    # в копейках
+    calories: Float!,
 }

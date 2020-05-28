@@ -1,14 +1,16 @@
+import { useState, useContext } from 'react'
 import Router from 'next/router'
 
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 import { deepOrange } from '@material-ui/core/colors'
-import { Button } from '@material-ui/core'
+import { Button, Menu } from '@material-ui/core'
 
 import AppWrap from '../components/AppWrap.js'
 import Logo from '../components/Logo.js'
 import ButtonWrap from '../components/ButtonWrap.js'
+import MenuItem from '../components/MenuItem.js'
 
 const SplashScreen = () => (
     <>
@@ -49,6 +51,64 @@ const SplashScreen = () => (
     </>
 )
 
+const GET_MENU = gql`
+    query menu {
+        getMenu {
+            id,
+            title,
+            price,
+            calories
+        }
+    }
+`
+
+const MenuItems = () => {
+    const { loading, data } = useQuery(GET_MENU)
+
+    const [ selectedItems, setSelectedItems ] = useState(
+        typeof window !== 'undefined' && localStorage.getItem('order')
+            ? JSON.parse( localStorage.getItem('order') )
+            : {}
+    )
+
+    if(loading) {
+        return null
+    }
+
+    const setItemCount = (itemId, count) => {
+        let newSelectedItems
+
+        if(count === 0) {
+            const { [itemId]: _removed, ...rest } = selectedItems
+            newSelectedItems = rest
+        } else {
+            newSelectedItems = {
+                ...selectedItems,
+                [itemId]: count,
+            }
+        }
+
+        setSelectedItems(newSelectedItems)
+        localStorage.setItem('order', JSON.stringify(newSelectedItems))
+    }
+
+    return (
+        <section
+            className="MenuItems"
+        >
+            {
+                data.getMenu.map(
+                    item => <MenuItem
+                        key={item.id}
+                        item={item}
+                        count={selectedItems[item.id]}
+                        setItemCount={setItemCount.bind(null, item.id)}
+                    />)
+            }
+        </section>
+    )
+}
+
 const GET_USER = gql`
     query {
         getUser {
@@ -61,7 +121,7 @@ const GET_USER = gql`
 const Index = () => {
     const { loading, error, data } = useQuery(GET_USER)
 
-    if(loading) {
+    if (loading) {
         return (
             <AppWrap
                 loading
@@ -69,7 +129,7 @@ const Index = () => {
         )
     }
 
-    if(data.getUser === null) {
+    if (data.getUser === null) {
         return (
             <AppWrap>
                 <SplashScreen />
@@ -81,7 +141,7 @@ const Index = () => {
         <AppWrap
             header
         >
-            <div>menu</div>
+            <MenuItems />
         </AppWrap>
     )
 }
