@@ -2,6 +2,8 @@
 import { ApolloProvider } from '@apollo/react-hooks'
 import { ThemeProvider } from '@material-ui/core/styles'
 
+import { ModalProvider } from 'react-hooks-async-modal'
+
 import client from '../lib/apolloClient.js'
 import materialUITheme from '../lib/materialUITheme.js'
 
@@ -17,7 +19,9 @@ const CloudKitchenApp = ({
             <ThemeProvider
                 theme={materialUITheme}
             >
-                <Component {...pageProps} />
+                <ModalProvider>
+                    <Component {...pageProps} />
+                </ModalProvider>
             </ThemeProvider>
         </ApolloProvider>
     )

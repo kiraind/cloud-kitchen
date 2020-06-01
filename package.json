@@ -37,7 +37,8 @@
         "mysql2": "^2.1.0",
         "next": "^9.4.1",
         "react": "^16.13.1",
-        "react-dom": "^16.13.1"
+        "react-dom": "^16.13.1",
+        "react-hooks-async-modal": "^1.0.0"
     },
     "devDependencies": {
         "nodemon": "^2.0.4"
