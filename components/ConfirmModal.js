@@ -3,20 +3,26 @@ import { useModal } from 'react-hooks-async-modal'
 
 import ModalWrap from './ModalWrap.js'
 
-const AlertModal = ({
+const ConfirmModal = ({
     message,
     
     onResolve,
     onReject,
 }) => (
     <ModalWrap
-        onOutsideClick={() => onResolve()}
+        onOutsideClick={onReject}
     >
         <p>{message}</p>
 
         <div
-            className="AlertModalUI"
+            className="ConfirmModalUI"
         >
+            <Button
+                variant="text"
+                color="secondary"
+                onClick={() => onReject('Clicked "Cancel"')}
+            >Отмена</Button>
+            <div className="HorizontalSpacer" />
             <Button
                 variant="outlined"
                 color="secondary"
@@ -31,17 +37,21 @@ const AlertModal = ({
                 font-size: 18px;
             }
 
-            .AlertModalUI {
+            .ConfirmModalUI {
                 display: flex;
                 justify-content: flex-end;
+            }
+
+            .HorizontalSpacer {
+                width: 15px;
             }
         `}</style>
     </ModalWrap>
 )
 
-const useAlertModal = () => useModal(AlertModal)
+const useConfirmModal = () => useModal(ConfirmModal)
 
-export default AlertModal
+export default ConfirmModal
 export {
-    useAlertModal,
+    useConfirmModal,
 }
