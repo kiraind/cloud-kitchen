@@ -8,6 +8,7 @@ import logoutUser from './logoutUser.js'
 import makeOrder from './makeOrder.js'
 import addAddress from './addAddress.js'
 import getAddresses from './getAddresses.js'
+import addCard from './addCard.js'
 import getCards from './getCards.js'
 import registerUser from './registerUser.js'
 
@@ -27,6 +28,7 @@ const Mutation = {
     logoutUser,
     makeOrder,
     addAddress,
+    addCard,
 }
 
 export {

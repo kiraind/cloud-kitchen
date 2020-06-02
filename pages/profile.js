@@ -214,7 +214,7 @@ const Profile = () => {
 
             <ul>
                 {addressesData.getAddresses.map(addr =>(
-                    <li>ул. {addr.street}, д. {addr.building}{addr.room ? `, кв. ${addr.room}` : ''}</li>
+                    <li key={addr.id}>ул. {addr.street}, д. {addr.building}{addr.room ? `, кв. ${addr.room}` : ''}</li>
                 )) }
             </ul>
         </AppWrap>
