@@ -16,7 +16,7 @@ import ButtonWrap from '../components/ButtonWrap.js'
 import { useAddAddressModal } from '../components/AddAddressModal.js'
 import { useAlertModal } from '../components/AlertModal.js'
 
-import { GET_ADDRESSES } from '../lib/queries.js'
+import { GET_ADDRESSES, GET_CARDS } from '../lib/queries.js'
 
 const ADD_ADDRESS = gql`
     mutation addAddress($address: AddressInput!) {
@@ -26,9 +26,20 @@ const ADD_ADDRESS = gql`
     }
 `
 
+const ADD_CARD = gql`
+    mutation addCard($card: CreditCardInput!) {
+        addCard(card: $card) {
+            id
+        }
+    }
+`
+
 const CheckoutForm = () => {
     const callAddAddressModal = useAddAddressModal()
     const callAlertModal      = useAlertModal()
+
+    // АДРЕС
+    // получение
 
     const {
         loading: addressesLoading,
@@ -44,6 +55,8 @@ const CheckoutForm = () => {
             setAddressId( addresses[0].id )
         }
     }, [addressesLoading])
+
+    // создание
 
     const [ addAddress ] = useMutation(ADD_ADDRESS)
 
@@ -75,6 +88,8 @@ const CheckoutForm = () => {
         }
     }
 
+    // интерфейс
+
     const onAddressSelectChange = e => {
         const { value } = e.target
 
@@ -94,9 +109,82 @@ const CheckoutForm = () => {
         >ул. {addr.street}, д. {addr.building}{addr.room ? `, кв. ${addr.room}` : ''}</MenuItem>
     )
 
+    // КАРТА
+    // получение
+
+    const {
+        loading: cardsLoading,
+        data:    cardsData,
+        refetch: refetchCards
+    } = useQuery(GET_CARDS)
+
+    const cards = cardsLoading ? [] : cardsData.getCards
+
+    const [ cardId, setCardId ] = useState(cards[0] ? cards[0].id : 'new')
+    useEffect(() => {
+        if(cards[0]) {
+            setCardId( cards[0].id )
+        }
+    }, [cardsLoading])
+
+    // создание
+    const [ addCard ] = useMutation(ADD_CARD)
+
+    const addNewCard = async () => {
+        try {
+            // добавить новый адрес
+            const newCard = {
+                cardNumber: '5204004094028177',
+                expires:    '1122',
+                cvv:        '123',
+                holderName: 'IVAN IVANOV',
+            } // await callAddAddressModal()
+
+            const result = await addCard({
+                variables: {
+                    card: newCard,
+                }
+            })
+
+            const newCardId = result.data.addCard.id
+
+            await refetchCards()
+            setCardId(newCardId)
+        } catch(err) {
+            // пользователь отменил ввод
+            if(typeof err === 'string') {
+                return
+            }
+
+            // ошибка
+            await callAlertModal({
+                message: err.message
+            })
+        }
+    }
+
+    // интерфейс
+    const onCardSelectChange = e => {
+        const { value } = e.target
+
+        if(value !== 'new') {
+            setCardId(value)
+            return
+        }
+
+        addNewCard()
+    }
+
+    const cardItems = cards.map(
+        card =>
+        <MenuItem
+            key={card.id}
+            value={card.id}
+        >****&nbsp;****&nbsp;****&nbsp;{card.lastFourDigits}</MenuItem>
+    )
+
     return (
         <NoSsr>
-            
             <ButtonWrap>
                 {
                     addresses.length > 0 ? (
@@ -124,6 +212,39 @@ const CheckoutForm = () => {
                             fullWidth
                             onClick={addNewAddress}
                         >Ввести адрес доставки</Button>
+                    )
+                }
+
+                
+            </ButtonWrap>
+
+            <ButtonWrap>
+                {
+                    cards.length > 0 ? (
+                        <>
+                        <div className="VerticalSpacer" />
+                        <FormControl
+                            variant="outlined"
+                            fullWidth
+                        >
+                            <InputLabel>Карта для оплаты</InputLabel>
+                            <Select
+                                value={cardId}
+                                onChange={onCardSelectChange}
+                                label="Карта для оплаты"
+                            >
+                                {cardItems}
+                                <MenuItem value="new">Добавить новую</MenuItem>
+                            </Select>
+                        </FormControl>
+                        </>
+                    ) : (
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            fullWidth
+                            onClick={addNewCard}
+                        >Ввести карту для оплаты</Button>
                     )
                 }
 

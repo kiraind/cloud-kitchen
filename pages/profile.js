@@ -15,7 +15,7 @@ import ButtonWrap from '../components/ButtonWrap.js'
 import formatName from '../lib/ulits/formatName.js'
 import validateEmail from '../lib/ulits/validateEmail.js'
 
-import { GET_ADDRESSES } from '../lib/queries.js'
+import { GET_ADDRESSES, GET_CARDS } from '../lib/queries.js'
 
 const EDIT_USER = gql`
     mutation edit($user: UserEditInput!) {
@@ -186,7 +186,12 @@ const Profile = () => {
         data:    addressesData,
     } = useQuery(GET_ADDRESSES)
 
-    if(userLoading || addressesLoading) {
+    const {
+        loading: cardsLoading,
+        data:    cardsData,
+    } = useQuery(GET_CARDS)
+
+    if(userLoading || addressesLoading || cardsLoading) {
         return (
             <AppWrap
                 title="Профиль"
@@ -215,6 +220,14 @@ const Profile = () => {
             <ul>
                 {addressesData.getAddresses.map(addr =>(
                     <li key={addr.id}>ул. {addr.street}, д. {addr.building}{addr.room ? `, кв. ${addr.room}` : ''}</li>
+                )) }
+            </ul>
+
+            <h3>Сохраненные карты для оплаты</h3>
+
+            <ul>
+                {cardsData.getCards.map(card =>(
+                    <li key={card.id}>****&nbsp;****&nbsp;****&nbsp;{card.lastFourDigits}</li>
                 )) }
             </ul>
         </AppWrap>
