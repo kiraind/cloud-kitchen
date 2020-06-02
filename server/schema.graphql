@@ -11,7 +11,7 @@ type Mutation {
     loginUser(credentials: LoginInput!) : User,
     logoutUser: Int,
     addAddress(address: AddressInput!) : Address,
-    makeOrder(order: OrderInput!) : Order!,
+    makeOrder(order: OrderInput!) : Int!,
 }
 
 # Операции с пользователем

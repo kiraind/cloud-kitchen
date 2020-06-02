@@ -98,7 +98,7 @@ CREATE TABLE MenuItems_X_Orders (
     MenuItemId INT NOT NULL,
     CookId     INT NOT NULL,
     Amount     INT NOT NULL,
-    Status     ENUM('New', 'InProgress', 'Ready') NOT NULL,
+    Status     ENUM('New', 'InProgress', 'Ready') NOT NULL DEFAULT 'New',
 
     foreign key (OrderId)    references Orders(Id),
     foreign key (MenuItemId) references MenuItems(Id),
