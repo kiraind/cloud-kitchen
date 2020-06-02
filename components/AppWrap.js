@@ -43,6 +43,11 @@ const AppWrap = ({
                     max-width: 400px;
                 }
 
+                h3 {
+                    margin: 20px 15px 0;
+                    font-size: 18px;
+                }
+
                 @media (min-width: 440px) {
                     .AppWrap main {
                         margin: 20px auto 0;

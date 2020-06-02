@@ -10,6 +10,7 @@ type Mutation {
     registerUser(user: UserInput!) : User,
     loginUser(credentials: LoginInput!) : User,
     logoutUser: Int,
+    addAddress(address: AddressInput!) : Address,
     makeOrder(order: OrderInput!) : Order!,
 }
 

@@ -204,13 +204,6 @@ const Profile = () => {
                 initialName={userData.getUser.name}
                 initialEmail={userData.getUser.email}
             />
-
-            <style jsx>{`
-                h3 {
-                    margin: 20px 15px 0;
-                    font-size: 18px;
-                }
-            `}</style>
         </AppWrap>
     )
 }
