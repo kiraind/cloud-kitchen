@@ -6,6 +6,7 @@ import getMenu from './getMenu.js'
 import loginUser from './loginUser.js'
 import logoutUser from './logoutUser.js'
 import makeOrder from './makeOrder.js'
+import addAddress from './addAddress.js'
 import registerUser from './registerUser.js'
 
 const Query = {
@@ -21,6 +22,7 @@ const Mutation = {
     registerUser,
     logoutUser,
     makeOrder,
+    addAddress,
 }
 
 export {
