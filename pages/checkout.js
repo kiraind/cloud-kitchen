@@ -17,7 +17,7 @@ import { useAddAddressModal } from '../components/AddAddressModal.js'
 import { useAlertModal } from '../components/AlertModal.js'
 
 const ADD_ADDRESS = gql`
-    mutation edit($address: AddressInput!) {
+    mutation addAddress($address: AddressInput!) {
         addAddress(address: $address) {
             id
         }

@@ -81,5 +81,5 @@ export default async function makeOrder(_parent, args, context) {
     // запись транзакции
     await mysqlConnection.commit()
 
-    return orderId
+    return shownId
 }

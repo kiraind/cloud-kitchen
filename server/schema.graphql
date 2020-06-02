@@ -2,7 +2,8 @@ type Query {
     test: String!,
     getUser: User,
     getBonusPoints: Int,
-    getMenu: [MenuItem!]!
+    getMenu: [MenuItem!]!,
+    getAddresses: [Address!]!
 }
 
 type Mutation {
