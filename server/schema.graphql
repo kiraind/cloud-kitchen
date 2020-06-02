@@ -3,7 +3,8 @@ type Query {
     getUser: User,
     getBonusPoints: Int,
     getMenu: [MenuItem!]!,
-    getAddresses: [Address!]!
+    getAddresses: [Address!]!,
+    getCards: [CreditCard!]!,
 }
 
 type Mutation {
@@ -13,6 +14,7 @@ type Mutation {
     logoutUser: Int,
     addAddress(address: AddressInput!) : Address,
     makeOrder(order: OrderInput!) : Int!,
+    addCard(card: CreditCardInput!) : CreditCard!,
 }
 
 # Операции с пользователем
@@ -95,4 +97,18 @@ type Order {
     comment: String,
 
     items: [OrderItem!]!
+}
+
+# Карты
+
+type CreditCard {
+    id:             Int!,
+    lastFourDigits: String!,
+}
+
+input CreditCardInput {
+    cardNumber: String!,
+    expires:    String!,
+    cvv:        String!,
+    holderName: String!,
 }

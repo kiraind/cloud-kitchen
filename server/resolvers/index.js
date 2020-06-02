@@ -8,6 +8,7 @@ import logoutUser from './logoutUser.js'
 import makeOrder from './makeOrder.js'
 import addAddress from './addAddress.js'
 import getAddresses from './getAddresses.js'
+import getCards from './getCards.js'
 import registerUser from './registerUser.js'
 
 const Query = {
@@ -16,6 +17,7 @@ const Query = {
     getUser,
     getMenu,
     getAddresses,
+    getCards,
 }
 
 const Mutation = {

@@ -46,6 +46,8 @@ CREATE TABLE Addresses (
 );
 
 CREATE TABLE CreditCards (
+    Id         INT PRIMARY KEY AUTO_INCREMENT,
+
     CardNumber CHAR(16),
     Expires    CHAR(4),
     CVV        CHAR(3),
