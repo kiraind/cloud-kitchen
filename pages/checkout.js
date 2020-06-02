@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 
@@ -16,6 +16,8 @@ import ButtonWrap from '../components/ButtonWrap.js'
 import { useAddAddressModal } from '../components/AddAddressModal.js'
 import { useAlertModal } from '../components/AlertModal.js'
 
+import { GET_ADDRESSES } from '../lib/queries.js'
+
 const ADD_ADDRESS = gql`
     mutation addAddress($address: AddressInput!) {
         addAddress(address: $address) {
@@ -28,23 +30,21 @@ const CheckoutForm = () => {
     const callAddAddressModal = useAddAddressModal()
     const callAlertModal      = useAlertModal()
 
-    const addresses = [
-        {
-            id: 1,
-            street: 'Тестовая',
-            building: '256',
-            room: '10',
-        },
-        {
-            id: 2,
-            street: 'Тестова',
-            building: '128',
-            room: '5',
-        },
-    ]
+    const {
+        loading: addressesLoading,
+        data:    addressesData,
+        refetch: refetchAddresses
+    } = useQuery(GET_ADDRESSES)
 
-    const [ addressId, setAddressId ] = useState(addresses[0] ? addresses[0].id : null)
-    
+    const addresses = addressesLoading ? [] : addressesData.getAddresses
+
+    const [ addressId, setAddressId ] = useState(addresses[0] ? addresses[0].id : 'new')
+    useEffect(() => {
+        if(addresses[0]) {
+            setAddressId( addresses[0].id )
+        }
+    }, [addressesLoading])
+
     const [ addAddress ] = useMutation(ADD_ADDRESS)
 
     const addNewAddress = async () => {
@@ -58,9 +58,9 @@ const CheckoutForm = () => {
                 }
             })
 
-            const newAddressId = result.data.newAddress.id
+            const newAddressId = result.data.addAddress.id
 
-            // todo
+            await refetchAddresses()
             setAddressId(newAddressId)
         } catch(err) {
             // пользователь отменил ввод

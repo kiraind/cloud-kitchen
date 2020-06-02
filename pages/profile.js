@@ -15,6 +15,8 @@ import ButtonWrap from '../components/ButtonWrap.js'
 import formatName from '../lib/ulits/formatName.js'
 import validateEmail from '../lib/ulits/validateEmail.js'
 
+import { GET_ADDRESSES } from '../lib/queries.js'
+
 const EDIT_USER = gql`
     mutation edit($user: UserEditInput!) {
         editUser(user: $user) {
@@ -176,12 +178,15 @@ const GET_USER = gql`
 const Profile = () => {
     const {
         loading: userLoading,
-        data: userData
+        data:    userData
     } = useQuery(GET_USER)
 
+    const {
+        loading: addressesLoading,
+        data:    addressesData,
+    } = useQuery(GET_ADDRESSES)
 
-
-    if(userLoading) {
+    if(userLoading || addressesLoading) {
         return (
             <AppWrap
                 title="Профиль"
@@ -204,6 +209,14 @@ const Profile = () => {
                 initialName={userData.getUser.name}
                 initialEmail={userData.getUser.email}
             />
+
+            <h3>Сохраненные адреса</h3>
+
+            <ul>
+                {addressesData.getAddresses.map(addr =>(
+                    <li>ул. {addr.street}, д. {addr.building}{addr.room ? `, кв. ${addr.room}` : ''}</li>
+                )) }
+            </ul>
         </AppWrap>
     )
 }
