@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { Router } from 'next/router'
+
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 
@@ -17,7 +19,7 @@ import { useAddAddressModal } from '../components/AddAddressModal.js'
 import { useAddCardModal } from '../components/AddCardModal.js'
 import { useAlertModal } from '../components/AlertModal.js'
 
-import { GET_ADDRESSES, GET_CARDS } from '../lib/queries.js'
+import { GET_ADDRESSES, GET_CARDS, GET_CART } from '../lib/queries.js'
 
 const ADD_ADDRESS = gql`
     mutation addAddress($address: AddressInput!) {
@@ -32,6 +34,12 @@ const ADD_CARD = gql`
         addCard(card: $card) {
             id
         }
+    }
+`
+
+const MAKE_ORDER = gql`
+    mutation makeOrder($order: OrderInput!) {
+        makeOrder(order: $order)
     }
 `
 
@@ -180,6 +188,44 @@ const CheckoutForm = () => {
         >****&nbsp;****&nbsp;****&nbsp;{card.lastFourDigits}</MenuItem>
     )
 
+    // ЗАКАЗ
+    const {
+        data: cartData,
+    } = useQuery(GET_CART)
+
+    const total = cartData.cart.reduce(
+        (acc, item) => acc + item.price * item.count,
+        0
+    )
+
+    const [ makeOrder ] = useMutation(MAKE_ORDER)
+
+    const onMakeOrder = async () => {
+        // todo оплата
+
+        const res = await makeOrder({
+            variables: {
+                order: {
+                    addressId,
+                    comment: null,
+
+                    items: cartData.cart.map(
+                        item => ({
+                            itemId: item.id,
+                            amount: item.count,
+                        })
+                    )
+                }
+            }
+        })
+
+        const orderNumber = res.data.makeOrder
+
+        await callAlertModal({ message: `Ваш заказ №${orderNumber} уже готовится.` })
+
+        Router.push('/history')
+    }
+
     return (
         <NoSsr>
             <ButtonWrap>
@@ -249,8 +295,8 @@ const CheckoutForm = () => {
                     variant="contained"
                     color="primary"
                     fullWidth
-                    // onClick={addNewCard}
-                >Заказать</Button>
+                    onClick={onMakeOrder}
+                >Заказать за {(total / 100).toFixed(2)}&nbsp;₽</Button>
             </ButtonWrap>
             
             <style jsx>{`

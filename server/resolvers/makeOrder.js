@@ -27,7 +27,8 @@ export default async function makeOrder(_parent, args, context) {
     await mysqlConnection.beginTransaction()
 
     // определение подходящего номера для отображения
-    const [[ maxShownId ]] = await mysqlConnection.execute(maxShownIdSQL)
+    const [[ maxShownIdRes ]] = await mysqlConnection.execute(maxShownIdSQL)
+    const maxShownId = maxShownIdRes.MaxShownId
     const shownId = maxShownId === null
         ? 1
         : maxShownId === 99
@@ -42,13 +43,14 @@ export default async function makeOrder(_parent, args, context) {
     const orderId = newOrderResult.insertId
 
     // поиск активных работников ресторана
-    const cooks = await mysqlConnection.execute(getActiveCooksSQL)
-        .map(
-            row => ({
-                id:    row[0],
-                tasks: row[1],
-            })
-        )
+    const [ cooksRes ] = await mysqlConnection.execute(getActiveCooksSQL)
+
+    const cooks = cooksRes.map(
+        row => ({
+            id:    row.Id,
+            tasks: row.TaskCount,
+        })
+    )        
 
     if(cooks.length === 0) {
         await mysqlConnection.rollback()

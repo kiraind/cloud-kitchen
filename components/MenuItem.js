@@ -45,6 +45,7 @@ const MenuItem = ({
                     onClick={() => setItemCount({
                         variables: {
                             id: item.id,
+                            price: item.price,
                             count: count - 1,
                         }
                     })}
@@ -58,6 +59,7 @@ const MenuItem = ({
                     onClick={() => setItemCount({
                         variables: {
                             id: item.id,
+                            price: item.price,
                             count: count + 1,
                         }
                     })}
