@@ -16,9 +16,7 @@ import validateEmail from '../lib/ulits/validateEmail.js'
 
 const LOGIN = gql`
 mutation login($credentials: LoginInput!) {
-    loginUser(credentials: $credentials) {
-        name
-    }
+    loginUser(credentials: $credentials)
 }
 `
 
@@ -45,8 +43,12 @@ const Login = () => {
                 }
             })
 
-            if(res.data.loginUser.name) {
+            if(res.data.loginUser === 'CUSTOMER') {
                 Router.push('/')
+            } else if(res.data.loginUser === 'COOK') {
+                Router.push('/service/cook')
+            } else {
+                Router.push('/service/courier')
             }
         } catch(e) {
             setError( e.message.split(':')[1] )

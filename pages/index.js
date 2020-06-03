@@ -60,7 +60,9 @@ const GET_USER = gql`
 `
 
 const Index = () => {
-    const { loading, error, data } = useQuery(GET_USER)
+    const { loading, error, data } = useQuery(GET_USER, {
+        fetchPolicy: 'network-only'
+    })
 
     if (loading) {
         return (

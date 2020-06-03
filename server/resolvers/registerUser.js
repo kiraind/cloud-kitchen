@@ -95,8 +95,5 @@ export default async function registerUser(_parent, args, context) {
         }
     )
 
-    return {
-        name:  name,
-        email: email,
-    }
+    return 'CUSTOMER'
 }

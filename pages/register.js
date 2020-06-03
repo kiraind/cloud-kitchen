@@ -17,9 +17,7 @@ import validateEmail from '../lib/ulits/validateEmail.js'
 
 const REGISTER = gql`
 mutation register($user: UserInput!) {
-    registerUser(user: $user) {
-        name
-    }
+    registerUser(user: $user)
 }
 `
 
@@ -64,8 +62,12 @@ const Register = () => {
                 }
             })
 
-            if(res.data.registerUser.name) {
+            if(res.data.registerUser === 'CUSTOMER') {
                 Router.push('/')
+            } else if(res.data.registerUser === 'COOK') {
+                Router.push('/service/cook')
+            } else {
+                Router.push('/service/courier')
             }
         } catch(e) {
             setError( e.message.split(':')[1] )

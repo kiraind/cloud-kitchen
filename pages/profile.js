@@ -179,7 +179,9 @@ const Profile = () => {
     const {
         loading: userLoading,
         data:    userData
-    } = useQuery(GET_USER)
+    } = useQuery(GET_USER, {
+        fetchPolicy: 'network-only'
+    })
 
     const {
         loading: addressesLoading,

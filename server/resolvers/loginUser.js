@@ -9,6 +9,7 @@ import randomBase64 from '../../lib/ulits/randomBase64.js'
 
 const credentialsCheckSQL = fs.readFileSync('sql/credentialsCheck.sql', 'utf-8')
 const addTokenSQL         = fs.readFileSync('sql/addToken.sql', 'utf-8')
+const internalUserSQL     = fs.readFileSync('sql/internalUser.sql', 'utf-8')
 
 const monthInMs = 30 * 24 * 60 * 60 * 1000
 
@@ -74,8 +75,15 @@ export default async function loginUser(_parent, args, context) {
         }
     )
 
-    return {
-        name:  row.Name,
-        email: email,
-    }
+    const [[ internalUserRow ]] = await mysqlConnection.execute(
+        internalUserSQL,
+        [ token, csrfToken ]
+    )
+
+    return (internalUserRow.Customer !== null)
+                ? 'CUSTOMER'
+                : (internalUserRow.Cook !== null)
+                    ? 'COOK'
+                    : 'COURIER'
+
 }

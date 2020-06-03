@@ -16,8 +16,8 @@ type Query {
 
 type Mutation {
     editUser(user: UserEditInput!) : User,
-    registerUser(user: UserInput!) : User,
-    loginUser(credentials: LoginInput!) : User,
+    registerUser(user: UserInput!) : UserType!,
+    loginUser(credentials: LoginInput!) : UserType!,
     logoutUser: Int,
     addAddress(address: AddressInput!) : Address,
     makeOrder(order: OrderInput!) : Int!,
@@ -34,6 +34,12 @@ type Mutation {
 type User {
     name:  String!,
     email: String!,
+}
+
+enum UserType {
+    CUSTOMER
+    COOK
+    COURIER
 }
 
 input UserEditInput {
