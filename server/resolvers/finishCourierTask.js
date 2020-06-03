@@ -27,5 +27,5 @@ export default async function finishCourierTask(_parent, args, context) {
         [ orderId, courierId ]
     )
 
-    return
+    return orderId
 }

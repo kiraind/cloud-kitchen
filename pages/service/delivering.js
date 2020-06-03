@@ -10,25 +10,27 @@ import AppWrap from '../../components/AppWrap.js'
 import ButtonWrap from '../../components/ButtonWrap.js'
 import Logo from '../../components/Logo.js'
 
-import {
-    SET_TASK_STATUS,
-} from '../../lib/queries.js'
-
 const GET_TASKS = gql`
     query {
-        getCookTasks {
+        getCourierTask {
             orderId
-            itemId
-
-            mealTitle
             orderShownId
-            amount
-            status
+            address {
+                street
+                building
+                room
+            }
         }
     }
 `
 
-const Cooking = () => {
+const FINISH_TASK = gql`
+    mutation finishCourierTask($orderId: Int!) {
+        finishCourierTask(orderId: $orderId)
+    }
+`
+
+const Delivering = () => {
     // задачи
     const {
         data:    tasksData,
@@ -37,11 +39,15 @@ const Cooking = () => {
         fetchPolicy: 'network-only',
     })
 
-    const task = tasksLoading
-        ? null
-        : tasksData.getCookTasks.filter(task => task.status === 'IN_PROGRESS')[0]
+    const task = tasksLoading ? null : tasksData.getCourierTask
 
-    const [ setCookTaskStatus ] = useMutation(SET_TASK_STATUS)
+    const [ finishCourierTask ] = useMutation(FINISH_TASK)
+
+    console.log(task)
+
+    if(task === null) {
+        return <AppWrap loading></AppWrap>
+    }
 
     return (
         <AppWrap>
@@ -57,17 +63,11 @@ const Cooking = () => {
                 className="BigData"
             >№{task.orderShownId.toString().padStart(2, '0')}</div>
 
-            <h3>Готовящееся блюдо:</h3>
+            <h3>Адрес доставки:</h3>
 
             <div
                 className="MediumData"
-            >{task.mealTitle}</div>
-
-            <h3>Количество штук:</h3>
-
-            <div
-                className="MediumData"
-            >{task.amount}</div>
+            >ул. {task.address.street}, д. {task.address.building}{task.address.room ? `, кв. ${task.address.room}` : ''}</div>
 
             <ButtonWrap>
                 <Button
@@ -75,14 +75,16 @@ const Cooking = () => {
                     color="primary"
                     fullWidth
                     onClick={async () => {
-                        await setCookTaskStatus({
-                            variables: {
-                                orderId: task.orderId,
-                                itemId:  task.itemId,
-                                status:  'READY'
-                            }
-                        })
-                        Router.push('/service/cook')
+                        try {
+                            await finishCourierTask({
+                                variables: {
+                                    orderId: task.orderId
+                                }
+                            })
+                            Router.push('/service/courier')
+                        } catch(e) {
+                            throw e
+                        }
                     }}
                 >Готово</Button>
             </ButtonWrap>
@@ -99,22 +101,21 @@ const Cooking = () => {
                 }
 
                 .BigData, .MediumData {
-                    padding: 15px 0 5px;
                     text-align: center;
                     line-height: 1;
                 }
 
                 .BigData {
-                    font-size: 50px;
-                }
-
-                .MediumData {
                     font-size: 30px;
                 }
 
+                .MediumData {
+                    padding: 15px 0;
+                    font-size: 22px;
+                }
             `}</style>
         </AppWrap>
     )
 }
 
-export default Cooking
+export default Delivering

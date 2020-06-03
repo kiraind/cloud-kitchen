@@ -4,4 +4,4 @@ UPDATE
 SET
     Delivered = TRUE
 WHERE
-    Id = ? AND CourierId =;
+    Id = ? AND CourierId = ?;
