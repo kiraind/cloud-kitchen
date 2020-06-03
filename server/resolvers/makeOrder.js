@@ -47,8 +47,7 @@ export default async function makeOrder(_parent, args, context) {
 
     const cooks = cooksRes.map(
         row => ({
-            id:    row.Id,
-            tasks: row.TaskCount,
+            id: row.Id
         })
     )        
 
@@ -58,13 +57,13 @@ export default async function makeOrder(_parent, args, context) {
     }
 
     // назначение блюдам сотрудников
+    let i = 0
     const cookIds = items.map(() => {
-        // найти самого незанятого сотрудника
-        cooks.sort( (a, b) => a.tasks - b.tasks )
-
-        // назначить ему блюдо
-        cooks[0].tasks += 1
-        return cooks[0].id
+        if(i === cooks.length) {
+            i = 0
+        }
+        cooks[i].tasks += 1
+        return cooks[i++].id
     })
 
     // добавление блюд в заказ

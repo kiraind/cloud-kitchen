@@ -17,6 +17,9 @@ const AppWrap = ({
             className="AppWrap"
         >
             <Head>
+                <link rel="icon" href="/favicon.svg" />
+                <link rel="manifest" href="/manifest.json" />
+                <meta name="theme-color" content="#ff5722"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <title>{title ? `${title} — ` : ''}CloudKitchen</title>
             </Head>
@@ -40,7 +43,7 @@ const AppWrap = ({
                 .AppWrap main {
                     margin: 0 auto;
                     width: 100%;
-                    max-width: 400px;
+                    max-width: 450px;
                 }
 
                 h3 {

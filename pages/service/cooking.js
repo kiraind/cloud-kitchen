@@ -43,6 +43,12 @@ const Cooking = () => {
 
     const [ setCookTaskStatus ] = useMutation(SET_TASK_STATUS)
 
+    if(task === null) {
+        return (
+            <AppWrap loading />
+        )
+    }
+
     return (
         <AppWrap>
             <div

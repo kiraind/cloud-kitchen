@@ -36,6 +36,7 @@ const GET_TASKS = gql`
             orderId
             itemId
 
+            amount
             mealTitle
             status
         }
@@ -97,6 +98,8 @@ const Cook = () => {
     })
 
     const tasks = !working ? [] : tasksLoading ? [] : tasksData.getCookTasks
+
+    console.log(tasks)
 
     const [ setCookTaskStatus ] = useMutation(SET_TASK_STATUS)
 

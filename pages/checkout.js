@@ -204,7 +204,7 @@ const CheckoutForm = () => {
     const {
         loading: isWorkingLoading,
         data:    isWorkingData
-    } = useQuery(IS_WORKING)
+    } = useQuery(IS_WORKING, { fetchPolicy: 'network-only' })
 
     const anyCooks = isWorkingLoading ? false : isWorkingData.isRestaurantWorking
 
