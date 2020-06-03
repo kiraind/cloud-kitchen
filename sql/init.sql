@@ -106,3 +106,29 @@ CREATE TABLE MenuItems_X_Orders (
     foreign key (MenuItemId) references MenuItems(Id),
     foreign key (CookId)     references Cooks(Id)
 );
+
+-- Триггер, помечающий заказ как готовый и назначающий ему курьера, 
+-- если все блюда готовы
+CREATE TRIGGER order_ready
+AFTER UPDATE ON MenuItems_X_Orders
+FOR EACH ROW
+UPDATE
+	Orders
+SET
+    Ready = TRUE,
+    CourierId = (
+        SELECT
+            Couriers.Id
+        FROM
+            Couriers
+        WHERE
+            Couriers.Active = TRUE AND Couriers.Busy = FALSE
+    )
+WHERE Orders.Id = NEW.OrderId AND 'Ready' = ALL (
+    SELECT
+        Status
+    FROM
+        MenuItems_X_Orders
+    WHERE
+        OrderId = NEW.OrderId
+);
