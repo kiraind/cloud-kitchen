@@ -15,7 +15,7 @@ export default async function getCourierTask(_parent, _args, context) {
     const courierId = context.user.courier
 
     if(courierId === null) {
-        throw new AuthenticationError('Нет прав работника ресторана')
+        throw new AuthenticationError('Нет прав курьера')
     }
 
     const [ tasksRows ] = await mysqlConnection.execute(
