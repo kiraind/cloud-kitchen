@@ -6,6 +6,7 @@ type Query {
     getAddresses: [Address!]!,
     getCards: [CreditCard!]!,
     isRestaurantWorking: Boolean!,
+    getHistory: [Order!]!
 }
 
 type Mutation {
