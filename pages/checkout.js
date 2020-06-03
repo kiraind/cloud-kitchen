@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Router } from 'next/router'
+import Router from 'next/router'
 
 import gql from 'graphql-tag'
 import { useQuery, useMutation } from '@apollo/react-hooks'
@@ -40,6 +40,12 @@ const ADD_CARD = gql`
 const MAKE_ORDER = gql`
     mutation makeOrder($order: OrderInput!) {
         makeOrder(order: $order)
+    }
+`
+
+const CLEAR_CART = gql`
+    mutation {
+        clearCart @client
     }
 `
 
@@ -189,6 +195,8 @@ const CheckoutForm = () => {
     )
 
     // ЗАКАЗ
+    const anyCooks = true
+
     const {
         data: cartData,
     } = useQuery(GET_CART)
@@ -199,6 +207,7 @@ const CheckoutForm = () => {
     )
 
     const [ makeOrder ] = useMutation(MAKE_ORDER)
+    const [ clearCart ] = useMutation(CLEAR_CART)
 
     const onMakeOrder = async () => {
         // todo оплата
@@ -221,7 +230,10 @@ const CheckoutForm = () => {
 
         const orderNumber = res.data.makeOrder
 
-        await callAlertModal({ message: `Ваш заказ №${orderNumber} уже готовится.` })
+        await callAlertModal({
+            message: `Ваш заказ №${orderNumber.toString().padStart(2, '0')} уже готовится. Его статус можно отслеживать в приложении.`
+        })
+        await clearCart()
 
         Router.push('/history')
     }
@@ -296,6 +308,10 @@ const CheckoutForm = () => {
                     color="primary"
                     fullWidth
                     onClick={onMakeOrder}
+                    disabled={
+                        (total === 0) ||
+                        !anyCooks
+                    }
                 >Заказать за {(total / 100).toFixed(2)}&nbsp;₽</Button>
             </ButtonWrap>
             
