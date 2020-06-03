@@ -10,11 +10,12 @@ CREATE TABLE Users (
     Id             INT PRIMARY KEY AUTO_INCREMENT,
 
     Name           VARCHAR(64),
-    Email          VARCHAR(64) NOT NULL,
+    Email          VARCHAR(64) NOT NULL UNIQUE,
     BcryptPassword CHAR(60) NOT NULL,
 
     Registered     TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE UNIQUE INDEX users_by_email ON Users(Email);
 
 CREATE TABLE UserTokens (
     Created   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -24,6 +25,7 @@ CREATE TABLE UserTokens (
 
     foreign key (UserId) references Users(Id)
 );
+CREATE UNIQUE INDEX tokens_by_tokens ON UserTokens(Token, CSRFToken);
 
 CREATE TABLE Customers (
     Id          INT PRIMARY KEY AUTO_INCREMENT,
@@ -94,6 +96,8 @@ CREATE TABLE Orders (
     foreign key (AddressId)  references Addresses(Id),
     foreign key (CustomerId) references Customers(Id)
 );
+CREATE INDEX orders_by_customers ON Orders(CustomerId);
+CREATE INDEX orders_by_couriers  ON Orders(CourierId);
 
 CREATE TABLE MenuItems_X_Orders (
     OrderId    INT NOT NULL,
@@ -107,6 +111,7 @@ CREATE TABLE MenuItems_X_Orders (
     foreign key (MenuItemId) references MenuItems(Id),
     foreign key (CookId)     references Cooks(Id)
 );
+CREATE INDEX order_items_by_cooks ON MenuItems_X_Orders(CookId);
 
 -- Триггер, помечающий заказ как готовый и назначающий ему курьера, 
 -- если все блюда готовы

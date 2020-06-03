@@ -38,6 +38,14 @@
 
 ![Схема базы данных](docs/db-sheme.png)
 
+### Список индексов:
+
+1. `users_by_email` — таблица *Users* по полю *Email*;
+2. `tokens_by_tokens` — таблица *UserTokens* по полям *Token* и *CSRFToken*;
+3. `orders_by_customers` — таблица *Orders* по полю *CustomerId*;
+4. `orders_by_couriers` — таблица *Orders* по полю *CourierId*;
+5. `order_items_by_cooks` — таблица *MenuItems_X_Orders* по полю *CookId*.
+
 ## Элементы SPA-приложения
 
 ### Страницы
@@ -113,3 +121,34 @@
 * На фронте тоже работает Next.js *(7)* в основном в качестве роутера;
 * Весь интерфейс рендерится реактом *(8)* с кусками [MaterialUI](https://material-ui.com/) *(10)*;
 * Для GraphQL-запросов юзается Apollo Client *(9)*.
+
+## Установка и запуск
+
+На MySQL сервере необходимо создать пустую БД `cloud-kitchen`.
+
+Клонируем репу:
+
+```sh
+git clone https://github.com/kiraind/cloud-kitchen.git
+cd cloud-kitchen
+```
+
+Устанавливаем зависимости:
+
+```sh
+npm i
+```
+
+Инициализируем БД, подставив в переменные окружения параметры входа:
+
+```sh
+MYSQL_HOST=localhost MYSQL_USER=username MYSQL_PASSWORD=password123 npm run init-db
+```
+
+Запускаем сервер для разработки:
+
+```sh
+MYSQL_HOST=localhost MYSQL_USER=username MYSQL_PASSWORD=password123 npm run dev
+```
+
+Идем на [localhost:3003](http://localhost:3003/).
