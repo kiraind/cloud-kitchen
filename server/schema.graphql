@@ -6,7 +6,9 @@ type Query {
     getAddresses: [Address!]!,
     getCards: [CreditCard!]!,
     isRestaurantWorking: Boolean!,
-    getHistory: [Order!]!
+    getHistory: [Order!]!,
+
+    getCookTasks: [CookTask!]!,
 }
 
 type Mutation {
@@ -17,6 +19,8 @@ type Mutation {
     addAddress(address: AddressInput!) : Address,
     makeOrder(order: OrderInput!) : Int!,
     addCard(card: CreditCardInput!) : CreditCard!,
+
+    setCookTaskStatus(orderId: Int!, itemId: Int!, status: CookTaskStatus!) : CookTaskStatus!
 }
 
 # Операции с пользователем
@@ -113,4 +117,22 @@ input CreditCardInput {
     expires:    String!,
     cvv:        String!,
     holderName: String!,
+}
+
+# Работники ресторана
+
+enum CookTaskStatus {
+    NEW
+    IN_PROGRESS
+    READY
+}
+
+type CookTask {
+    orderId:      Int!,
+    itemId:       Int!,
+    status:       CookTaskStatus!,
+
+    orderShownId: Int!,
+    mealTitle:    String!,
+    amount:       Int!,
 }

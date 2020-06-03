@@ -14,6 +14,9 @@ import registerUser from './registerUser.js'
 import isRestaurantWorking from './isRestaurantWorking.js'
 import getHistory from './getHistory.js'
 
+import getCookTasks from './getCookTasks.js'
+import setCookTaskStatus from './setCookTaskStatus.js'
+
 const Query = {
     test,
     getBonusPoints,
@@ -23,6 +26,8 @@ const Query = {
     getCards,
     isRestaurantWorking,
     getHistory,
+    
+    getCookTasks,
 }
 
 const Mutation = {
@@ -33,6 +38,8 @@ const Mutation = {
     makeOrder,
     addAddress,
     addCard,
+
+    setCookTaskStatus,
 }
 
 export {
