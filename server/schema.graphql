@@ -8,6 +8,8 @@ type Query {
     isRestaurantWorking: Boolean!,
     getHistory: [Order!]!,
 
+    getActivityStatus: Boolean!,
+    getBusyStatus: Boolean!, 
     getCookTasks: [CookTask!]!,
 }
 
@@ -20,6 +22,8 @@ type Mutation {
     makeOrder(order: OrderInput!) : Int!,
     addCard(card: CreditCardInput!) : CreditCard!,
 
+    setActivityStatus(status: Boolean!): Boolean!,
+    setBusyStatus(status: Boolean!): Boolean!,
     setCookTaskStatus(orderId: Int!, itemId: Int!, status: CookTaskStatus!) : CookTaskStatus!
 }
 

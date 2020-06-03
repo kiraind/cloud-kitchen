@@ -14,6 +14,10 @@ import registerUser from './registerUser.js'
 import isRestaurantWorking from './isRestaurantWorking.js'
 import getHistory from './getHistory.js'
 
+import getActivityStatus from './getActivityStatus.js'
+import setActivityStatus from './setActivityStatus.js'
+import getBusyStatus from './getBusyStatus.js'
+import setBusyStatus from './setBusyStatus.js'
 import getCookTasks from './getCookTasks.js'
 import setCookTaskStatus from './setCookTaskStatus.js'
 
@@ -27,6 +31,8 @@ const Query = {
     isRestaurantWorking,
     getHistory,
     
+    getActivityStatus,
+    getBusyStatus,
     getCookTasks,
 }
 
@@ -39,6 +45,8 @@ const Mutation = {
     addAddress,
     addCard,
 
+    setActivityStatus,
+    setBusyStatus,
     setCookTaskStatus,
 }
 
