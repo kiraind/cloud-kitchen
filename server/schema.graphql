@@ -11,6 +11,7 @@ type Query {
     getActivityStatus: Boolean!,
     getBusyStatus: Boolean!, 
     getCookTasks: [CookTask!]!,
+    getCourierTask: CourierTask,
 }
 
 type Mutation {
@@ -24,7 +25,8 @@ type Mutation {
 
     setActivityStatus(status: Boolean!): Boolean!,
     setBusyStatus(status: Boolean!): Boolean!,
-    setCookTaskStatus(orderId: Int!, itemId: Int!, status: CookTaskStatus!) : CookTaskStatus!
+    setCookTaskStatus(orderId: Int!, itemId: Int!, status: CookTaskStatus!) : CookTaskStatus!,
+    finishCourierTask(orderId: Int!) : Int!,
 }
 
 # Операции с пользователем
@@ -139,4 +141,12 @@ type CookTask {
     orderShownId: Int!,
     mealTitle:    String!,
     amount:       Int!,
+}
+
+# Курьеры
+
+type CourierTask {
+    orderId: Int!,
+    orderShownId: Int!,
+    address: Address!,
 }

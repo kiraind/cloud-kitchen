@@ -20,6 +20,8 @@ import getBusyStatus from './getBusyStatus.js'
 import setBusyStatus from './setBusyStatus.js'
 import getCookTasks from './getCookTasks.js'
 import setCookTaskStatus from './setCookTaskStatus.js'
+import getCourierTask from './getCourierTask.js'
+import finishCourierTask from './finishCourierTask.js'
 
 const Query = {
     test,
@@ -34,6 +36,7 @@ const Query = {
     getActivityStatus,
     getBusyStatus,
     getCookTasks,
+    getCourierTask,
 }
 
 const Mutation = {
@@ -48,6 +51,7 @@ const Mutation = {
     setActivityStatus,
     setBusyStatus,
     setCookTaskStatus,
+    finishCourierTask,
 }
 
 export {
