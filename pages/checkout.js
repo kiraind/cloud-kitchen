@@ -211,8 +211,6 @@ const CheckoutForm = () => {
                         >Ввести адрес доставки</Button>
                     )
                 }
-
-                
             </ButtonWrap>
 
             <ButtonWrap>
@@ -244,8 +242,15 @@ const CheckoutForm = () => {
                         >Ввести карту для оплаты</Button>
                     )
                 }
+            </ButtonWrap>
 
-                
+            <ButtonWrap>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    // onClick={addNewCard}
+                >Заказать</Button>
             </ButtonWrap>
             
             <style jsx>{`
@@ -270,7 +275,19 @@ const Checkout = () => {
                 onlyPresent
             />
 
-            <CheckoutForm />
+            <section
+                className="FormSection"
+            >
+                <CheckoutForm />
+            </section>
+
+            <style jsx>{`
+                .FormSection {
+                    margin-top: 15px;
+                    box-shadow: 0px 1px 5px rgba(0,0,0,0.175);
+                    padding-bottom: 20px;
+                }
+            `}</style>
         </AppWrap>
     )
 }

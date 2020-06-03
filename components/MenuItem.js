@@ -42,7 +42,12 @@ const MenuItem = ({
             >
                 <Button
                     disabled={count === 0}
-                    onClick={() => setItemCount(count - 1)}
+                    onClick={() => setItemCount({
+                        variables: {
+                            id: item.id,
+                            count: count - 1,
+                        }
+                    })}
                 >−</Button>
                 <Button
                     disableFocusRipple
@@ -50,7 +55,12 @@ const MenuItem = ({
                     disableTouchRipple
                 >{count}</Button>
                 <Button
-                    onClick={() => setItemCount(count + 1)}
+                    onClick={() => setItemCount({
+                        variables: {
+                            id: item.id,
+                            count: count + 1,
+                        }
+                    })}
                 >+</Button>
             </ButtonGroup>
         </div>

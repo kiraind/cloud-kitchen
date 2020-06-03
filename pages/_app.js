@@ -4,14 +4,25 @@ import { ThemeProvider } from '@material-ui/core/styles'
 
 import { ModalProvider } from 'react-hooks-async-modal'
 
-import client from '../lib/apolloClient.js'
+import client, { hydrateCache } from '../lib/apolloClient.js'
 import materialUITheme from '../lib/materialUITheme.js'
+import { useEffect, useState } from 'react'
 
 const CloudKitchenApp = ({
     Component,
     pageProps,
-    // apollo,
 }) => {
+    const [ hydrated, setHydrated ] = useState(false)
+
+    useEffect(() => {
+        hydrateCache()
+        .finally(() => setHydrated(true))
+    }, [])
+
+    if(!hydrated) {
+        return null
+    }
+
     return (
         <ApolloProvider
             client={client}

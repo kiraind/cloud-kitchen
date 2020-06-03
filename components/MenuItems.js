@@ -1,9 +1,9 @@
-import { useState } from 'react'
-
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
 import MenuItem from './MenuItem.js'
+
+import { GET_CART, SET_ITEM_COUNT } from '../lib/queries.js'
 
 const GET_MENU = gql`
     query menu {
@@ -19,36 +19,27 @@ const GET_MENU = gql`
 const MenuItems = ({
     onlyPresent=false,
 }) => {
-    const { loading, data } = useQuery(GET_MENU)
+    const {
+        loading: menuLoading,
+        data:    menuData
+    } = useQuery(GET_MENU)
 
-    const [ selectedItems, setSelectedItems ] = useState(
-        typeof window !== 'undefined' && localStorage.getItem('order')
-            ? JSON.parse( localStorage.getItem('order') )
-            : {}
+    const {
+        data: cartData,
+    } = useQuery(GET_CART)
+
+    const [ setItemCount ] = useMutation(SET_ITEM_COUNT)
+
+    const selectedItems = cartData.cart.reduce(
+        (acc, item) => ({ ...acc, [item.id]: item.count }),
+        {}
     )
 
-    if(loading) {
+    if(menuLoading) {
         return null
     }
 
-    const setItemCount = (itemId, count) => {
-        let newSelectedItems
-
-        if(count === 0) {
-            const { [itemId]: _removed, ...rest } = selectedItems
-            newSelectedItems = rest
-        } else {
-            newSelectedItems = {
-                ...selectedItems,
-                [itemId]: count,
-            }
-        }
-
-        setSelectedItems(newSelectedItems)
-        localStorage.setItem('order', JSON.stringify(newSelectedItems))
-    }
-
-    const items = data.getMenu
+    const items = menuData.getMenu
         .filter(
             item => onlyPresent ? item.id in selectedItems : true
         )
@@ -58,7 +49,7 @@ const MenuItems = ({
                     key={item.id}
                     item={item}
                     count={selectedItems[item.id]}
-                    setItemCount={setItemCount.bind(null, item.id)}
+                    setItemCount={setItemCount}
                 />
             )
         )
