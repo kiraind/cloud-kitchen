@@ -14,6 +14,7 @@ import MenuItems from '../components/MenuItems.js'
 import ButtonWrap from '../components/ButtonWrap.js'
 
 import { useAddAddressModal } from '../components/AddAddressModal.js'
+import { useAddCardModal } from '../components/AddCardModal.js'
 import { useAlertModal } from '../components/AlertModal.js'
 
 import { GET_ADDRESSES, GET_CARDS } from '../lib/queries.js'
@@ -36,6 +37,7 @@ const ADD_CARD = gql`
 
 const CheckoutForm = () => {
     const callAddAddressModal = useAddAddressModal()
+    const callAddCardModal    = useAddCardModal()
     const callAlertModal      = useAlertModal()
 
     // АДРЕС
@@ -132,13 +134,8 @@ const CheckoutForm = () => {
 
     const addNewCard = async () => {
         try {
-            // добавить новый адрес
-            const newCard = {
-                cardNumber: '5204004094028177',
-                expires:    '1122',
-                cvv:        '123',
-                holderName: 'IVAN IVANOV',
-            } // await callAddAddressModal()
+            // добавить новую карту
+            const newCard = await callAddCardModal()
 
             const result = await addCard({
                 variables: {
