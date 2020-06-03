@@ -13,4 +13,6 @@ FROM
     Addresses
         ON Orders.AddressId = Addresses.Id
 WHERE
-    Orders.CustomerId = ?;
+    Orders.CustomerId = ?
+ORDER BY
+    Orders.Id DESC;

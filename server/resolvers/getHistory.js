@@ -52,7 +52,7 @@ export default async function getHistory(_parent, _args, context) {
                 item: {
                     id:       itemRow.MenuItemId,
                     title:    itemRow.Title,
-                    price:    itemRow.Price,
+                    price:    parseFloat(itemRow.Price) * 100, // рубли в копейки
                     calories: itemRow.Calories,
                 },
                 amount:       itemRow.Amount,
