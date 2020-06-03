@@ -5,6 +5,7 @@ type Query {
     getMenu: [MenuItem!]!,
     getAddresses: [Address!]!,
     getCards: [CreditCard!]!,
+    isRestaurantWorking: Boolean!,
 }
 
 type Mutation {

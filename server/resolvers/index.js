@@ -11,6 +11,7 @@ import getAddresses from './getAddresses.js'
 import addCard from './addCard.js'
 import getCards from './getCards.js'
 import registerUser from './registerUser.js'
+import isRestaurantWorking from './isRestaurantWorking.js'
 
 const Query = {
     test,
@@ -19,6 +20,7 @@ const Query = {
     getMenu,
     getAddresses,
     getCards,
+    isRestaurantWorking,
 }
 
 const Mutation = {

@@ -37,6 +37,12 @@ const ADD_CARD = gql`
     }
 `
 
+const IS_WORKING = gql`
+    query {
+        isRestaurantWorking
+    }
+`
+
 const MAKE_ORDER = gql`
     mutation makeOrder($order: OrderInput!) {
         makeOrder(order: $order)
@@ -195,7 +201,12 @@ const CheckoutForm = () => {
     )
 
     // ЗАКАЗ
-    const anyCooks = true
+    const {
+        loading: isWorkingLoading,
+        data:    isWorkingData
+    } = useQuery(IS_WORKING)
+
+    const anyCooks = isWorkingLoading ? false : isWorkingData.isRestaurantWorking
 
     const {
         data: cartData,
